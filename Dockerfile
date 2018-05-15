@@ -241,7 +241,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./config/* /usr/local/etc/php/conf.d/
 
-// 设置容器时区
+# 设置容器时区
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
