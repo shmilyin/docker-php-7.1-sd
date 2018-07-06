@@ -205,15 +205,15 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     && docker-php-ext-install zip opcache bcmath pdo_mysql \
     && cd /home && rm -rf temp && mkdir temp && cd temp \
-    && wget https://github.com/swoole/swoole-src/archive/v2.1.3.tar.gz \
+    && wget https://github.com/swoole/swoole-src/archive/v4.0.1.tar.gz \
     https://github.com/redis/hiredis/archive/v0.13.3.tar.gz \
     https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz \
     && tar -xzvf 3.1.6.tar.gz \
     && tar -xzvf v0.13.3.tar.gz \
-    && tar -xzvf v2.1.3.tar.gz \
+    && tar -xzvf v4.0.1.tar.gz \
     && cd /home/temp/hiredis-0.13.3 \
     && make -j && make install && ldconfig \
-    && cd /home/temp/swoole-src-2.1.3 \
+    && cd /home/temp/swoole-src-4.0.1 \
     && phpize && ./configure --enable-async-redis --enable-openssl && make \
     && make install \
     && pecl install inotify \
