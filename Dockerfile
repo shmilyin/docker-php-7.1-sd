@@ -54,9 +54,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E 1729F83938DA44E27BA0F4D3DBDB397470D12172
 
-ENV PHP_VERSION 7.1.17
-ENV PHP_URL="https://secure.php.net/get/php-7.1.17.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.17.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="1a784806866e06367f7a5c88775d239d6f30041c7ce65a8232d03a3d4de56d56" PHP_MD5=""
+ENV PHP_VERSION 7.1.18
+ENV PHP_URL="https://secure.php.net/get/php-7.1.18.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.18.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -193,6 +193,12 @@ COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 #FROM shmilyin/php-cli-7.1
 #MAINTAINER shmilyin <351140724@qq.com>
 # 构建swoole环境，在这里安装了php,swoole,composer
+# SWOOLE_VERSION 需要跟 composer.json swooledistributed 的版本对应
+
+EVN SWOOLE_VERSION 4.0.1
+EVN PHPREDIS_VERSION 3.1.6
+EVN HIREDIS_VERSION 0.13.3
+
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     vim \
@@ -205,21 +211,21 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     && docker-php-ext-install zip opcache bcmath pdo_mysql \
     && cd /home && rm -rf temp && mkdir temp && cd temp \
-    && wget https://github.com/swoole/swoole-src/archive/v2.1.3.tar.gz \
-    https://github.com/redis/hiredis/archive/v0.13.3.tar.gz \
-    https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz \
-    && tar -xzvf 3.1.6.tar.gz \
-    && tar -xzvf v0.13.3.tar.gz \
-    && tar -xzvf v2.1.3.tar.gz \
-    && cd /home/temp/hiredis-0.13.3 \
+    && wget https://github.com/swoole/swoole-src/archive/v$SWOOLE_VERSION.tar.gz \
+    https://github.com/redis/hiredis/archive/v$HIREDIS_VERSION.tar.gz \
+    https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+    && tar -xzvf $PHPREDIS_VERSION.tar.gz \
+    && tar -xzvf v$HIREDIS_VERSION.tar.gz \
+    && tar -xzvf v$SWOOLE_VERSION.tar.gz \
+    && cd /home/temp/hiredis-$HIREDIS_VERSION \
     && make -j && make install && ldconfig \
-    && cd /home/temp/swoole-src-2.1.3 \
+    && cd /home/temp/swoole-src-$SWOOLE_VERSION \
     && phpize && ./configure --enable-async-redis --enable-openssl && make \
     && make install \
     && pecl install inotify \
     && pecl install ds \
     && pecl install igbinary \
-    && cd /home/temp/phpredis-3.1.6 \
+    && cd /home/temp/phpredis-$PHPREDIS_VERSION \
     && phpize \
     && ./configure --enable-redis-igbinary \
     && make &&  make install \
