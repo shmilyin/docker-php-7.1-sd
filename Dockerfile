@@ -195,7 +195,7 @@ COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 # 构建swoole环境，在这里安装了php,swoole,composer
 # SWOOLE_VERSION 需要跟 composer.json swooledistributed 的版本对应
 
-EVN SWOOLE_VERSION 4.0.1
+EVN SWOOLE_VERSION 4.0.3
 EVN PHPREDIS_VERSION 3.1.6
 EVN HIREDIS_VERSION 0.13.3
 
