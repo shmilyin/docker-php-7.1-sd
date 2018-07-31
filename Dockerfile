@@ -198,6 +198,7 @@ COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 ENV SWOOLE_VERSION 4.0.3
 ENV PHPREDIS_VERSION 3.1.6
 ENV HIREDIS_VERSION 0.13.3
+ENV INOTIFY_VERSION 2.0.0
 
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
@@ -214,15 +215,16 @@ RUN apt-get update && apt-get install -y \
     && wget https://github.com/swoole/swoole-src/archive/v$SWOOLE_VERSION.tar.gz \
     https://github.com/redis/hiredis/archive/v$HIREDIS_VERSION.tar.gz \
     https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+    https://github.com/arnaud-lb/php-inotify/archive/$INOTIFY_VERSION.tar.gz \
     && tar -xzvf $PHPREDIS_VERSION.tar.gz \
     && tar -xzvf v$HIREDIS_VERSION.tar.gz \
     && tar -xzvf v$SWOOLE_VERSION.tar.gz \
+    && tar -xzvf $INOTIFY_VERSION.tar.gz \
     && cd /home/temp/hiredis-$HIREDIS_VERSION \
     && make -j && make install && ldconfig \
     && cd /home/temp/swoole-src-$SWOOLE_VERSION \
     && phpize && ./configure --enable-async-redis --enable-openssl && make \
     && make install \
-    && pecl install inotify \
     && pecl install ds \
     && pecl install igbinary \
     && cd /home/temp/phpredis-$PHPREDIS_VERSION \
@@ -230,6 +232,9 @@ RUN apt-get update && apt-get install -y \
     && ./configure --enable-redis-igbinary \
     && make &&  make install \
     && cd /home/temp \
+    && cd /home/temp/php-inotify-$INOTIFY_VERSION \
+    && phpize \
+    && ./configure && make && make install \
     && php -r"copy('https://getcomposer.org/installer','composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/bin --filename=composer \
     && rm -rf /home/temp \
