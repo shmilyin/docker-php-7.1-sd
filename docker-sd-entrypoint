@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "reload" ]; then
+	exec /usr/local/bin/php /apps/bin/start_swoole_server.php "$1"
+fi
+
+if [ "$3" = 'start' ]; then
+	if [ "$4" = '-d' ]; then
+		echo "start -d not support"
+		exit 0
+	fi
+	exec echo "===end"
+fi
+
+exec "$@"
