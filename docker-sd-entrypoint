@@ -5,16 +5,20 @@ if [ "$1" = "reload" ]; then
 	/usr/local/bin/php /apps/bin/start_swoole_server.php reload
 fi
 
-if [ "$3" = 'start' ]; then
-	if [ "$4" = '-d' ]; then
-		echo "start -d not support"
-		exit 0
-	fi
+if [ "$1" = "start" ]; then
+	/usr/local/bin/php /apps/bin/start_swoole_server.php start
+fi
+
+if [ "$1" = '--debug' ]; then
 	/usr/local/bin/php /apps/bin/start_swoole_server.php start --debug
 fi
 
 if [ "${1#/}" != "$1" ]; then
 	exec "$@"
+fi
+
+if [ "$ENV" = 'dev' ]; then
+	/usr/local/bin/php /apps/bin/start_swoole_server.php start --debug
 fi
 
 /usr/local/bin/php /apps/bin/start_swoole_server.php start
