@@ -1,12 +1,8 @@
 #!/bin/sh
 set -e
 
-if [ "$1" = "reload" ]; then
-	/usr/local/bin/php /apps/bin/start_swoole_server.php reload
-fi
-
 if [ "$1" = "start" ]; then
-	/usr/local/bin/php /apps/bin/start_swoole_server.php start
+	/usr/local/bin/php /apps/bin/start_swoole_server.php "$@"
 fi
 
 if [ "$1" = '--debug' ]; then

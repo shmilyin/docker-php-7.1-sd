@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/loca//bin/php /apps/bin/start_swoole_server.php

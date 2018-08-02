@@ -61,6 +61,8 @@ RUN cd /apps && composer install && php vendor/tmtbe/swooledistributed/src/Insta
 
 COPY docker-sd-entrypoint /usr/local/bin/
 
+COPY swoole /usr/local/bin/ && chmod +x /usr/local/bin/swoole
+
 ENTRYPOINT ["docker-sd-entrypoint"]
 
 CMD ["php","/apps/bin/start_swoole_server.php","start"]
