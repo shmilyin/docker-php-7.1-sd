@@ -52,15 +52,3 @@ COPY ./config/* /usr/local/etc/php/conf.d/
 # 设置容器时区
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-RUN mkdir /apps
-
-COPY composer.json /apps/composer.json
-
-RUN cd /apps && composer install && php vendor/tmtbe/swooledistributed/src/Install.php -y
-
-COPY docker-sd-entrypoint swoole /usr/local/bin/
-
-ENTRYPOINT ["docker-sd-entrypoint"]
-
-CMD ["php","/apps/bin/start_swoole_server.php","start"]
