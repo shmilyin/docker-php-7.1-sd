@@ -10,7 +10,7 @@ if [ "$3" = 'start' ]; then
 		echo "start -d not support"
 		exit 0
 	fi
-	exec echo "===end"
+	exec "$1 $2 $3" --debug
 fi
 
 exec "$@"
