@@ -59,6 +59,8 @@ COPY composer.json /apps/composer.json
 
 RUN cd /apps && composer install && php vendor/tmtbe/swooledistributed/src/Install.php -y
 
+COPY docker-sd-entrypoint /usr/local/bin/
+
 ENTRYPOINT ["docker-sd-entrypoint"]
 
 CMD ["php","/apps/bin/start_swoole_server.php","start"]
