@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     vim \
     libssl-dev \
+    openssh-client \
     unzip \
     wget \
     git \
