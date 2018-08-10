@@ -6,6 +6,9 @@
         "psr-4": {
             "app\\": "src/app",
             "test\\": "src/test"
-        }
+        },
+        "files": [
+          "src/app/Help/common.php"
+        ]
     }
 }
