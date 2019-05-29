@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+echo "\n"
+echo "-----------------------------------------"
+echo "Start generating autoload files......"
+cd /apps && /usr/bin/composer dumpautoload
+echo "Success generating autoload files......"
+echo "-----------------------------------------"
+
 if [ "$1" = "start" ]; then
 	/usr/local/bin/php /apps/bin/start_swoole_server.php "$@"
 fi
